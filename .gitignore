@@ -1,0 +1,8 @@
+#Input and outputs
+papers/
+extracted_images/
+*.json
+
+#Intermediate files
+.ropeproject/
+__pycache__
