@@ -1,3 +1,6 @@
+from guidelines import TITLE_FONT_FAMILIES
+from guidelines import TITLE_FONT_SIZES
+from guidelines import TITLE_FLAGS
 import text_processor
 def validate_title(title,log=False):
     '''
@@ -24,9 +27,8 @@ def validate_title(title,log=False):
 
             font = prev_result['font'][0]
             font_size = prev_result['size'][0].round(0)
-            bold:bool = prev_result['is_bold'][0] == True
-            italic:bool = prev_result['is_italic'][0] == True
-            if(font == 'TimesNewRoman' and font_size == 24.0 and not bold and not italic):
+            flag = prev_result['flags'][0]
+            if(font in TITLE_FONT_FAMILIES and font_size in TITLE_FONT_SIZES and flag in TITLE_FLAGS):
                 if log:
                     print(strcated + ' -> ' + font)
                 return True
