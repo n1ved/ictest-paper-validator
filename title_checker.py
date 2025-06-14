@@ -1,38 +1,73 @@
-from guidelines import TITLE_FONT_FAMILIES
+from guidelines import TITLE_FONT_FAMILIES, check_font
 from guidelines import TITLE_FONT_SIZES
 from guidelines import TITLE_FLAGS
-import text_processor
-def validate_title(title,log=False):
-    '''
-	pass the title to validate it
-	currently checks
-		- whether the title is in TimesNewRoman
-		- whether the title is in 24pt font size
-		- is neither bold nor italic
-    '''
-    processor = text_processor.quick_load('extracted_pdf_data.json')
-    title_split = title.split()
-    title_search = processor.search(title)
-    breakp = 0
-    for word in range(0,len(title_split)):
-        prev_result = title_search
-        strcated = ''
-        for i in range(breakp , word):
-            strcated += title_split[i] + ' '
-        title_search = processor.search(strcated)
-        if title_search.empty:
-            if prev_result.empty:
-                print('Error: Title text not found in document')
-                return False
+from logger import printinfo, printfail, printwarn, printsuccess
 
-            font = prev_result['font'][0]
-            font_size = prev_result['size'][0].round(0)
-            flag = prev_result['flags'][0]
-            if(font in TITLE_FONT_FAMILIES and font_size in TITLE_FONT_SIZES and flag in TITLE_FLAGS):
-                if log:
-                    print(strcated + ' -> ' + font)
-                return True
+
+provider = "TITLE_VALIDATOR"
+
+def normalize(text):
+    return ''.join(text.split()).lower()
+
+def validate_title(data, log):
+    if log:
+        printinfo(provider,"STARTED")
+    try:
+        title = data['metadata']['metadata']['title']
+        printinfo(provider, "Title found: " + title)
+
+        formatted_text = data['formatted_text'][0]
+        title_alt = formatted_text['blocks'][0]['lines'][0]['spans'][0]
+        if '©' in title_alt['text']:
+            printwarn(provider,"copyright symbol found in title, skipping to next block.")
+            title_alt = formatted_text['blocks'][1]['lines'][0]['spans'][0]
+        printinfo(provider, "Alt title found: " + str(title_alt['text']))
+
+        family = title_alt['font']
+        result = check_font(family=family) and \
+            round(title_alt['size']) in TITLE_FONT_SIZES and \
+            title_alt['flags'] in TITLE_FLAGS
+
+        if not result:
+            printwarn(provider , title_alt['font']+ "@" + str(title_alt['size']) + " with flags " + str(title_alt['flags']) + " failed validation.")
+            printwarn(provider , "Alt title failed validation, checking original title...")
+            title_spans = []
+            local_result = True
+            title_normalized = normalize(title)
+            collected_title = ''
+            string_found = False
+            for block in formatted_text['blocks']:
+                for line in block['lines']:
+                    for span in line['spans']:
+                        span_text = span['text']
+                        collected_title += span_text
+                        if title_normalized in normalize(collected_title):
+                            printinfo(provider, "Title found: " + span_text + "[" + str(span['font']) + "@" + str(span['size']) + " with flags " + str(span['flags']) + "]")
+                            string_found = True
+                            local_result = check_font(family=span['font']) and \
+                                round(span['size']) in TITLE_FONT_SIZES and \
+                                span['flags'] in TITLE_FLAGS
+                        if string_found:
+                            break
+                    if string_found:
+                        break
+                if string_found:
+                    break
+
+
+            if local_result:
+                printinfo(provider, "Original title" + str(title_spans) + " passed validation.")
+                result = len(title_spans) > 0 and local_result
             else:
-                print('Error : FontError \n Invalid Font : ' + font + '@' + str(font_size) + 'pt')
-                return False
-            breakp = word
+                printfail(provider, "Original title failed validation. Title: " + str(collected_title))
+                result = False
+        else:
+            printinfo(provider, "Alt title passed validation: " + str(title_alt['text']))
+        if result:
+            printsuccess(provider, "TITLE CHECKER passed validation.")
+        return result
+
+    except Exception as e:
+        printfail("TITLE CHECKER", str(e))
+        return False
+

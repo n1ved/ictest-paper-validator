@@ -2,6 +2,9 @@ import fitz  # PyMuPDF
 import json
 from pathlib import Path
 
+from logger import printinfo, printfail
+
+provider = "PDF_EXTRACTOR"
 def extract_text_from_pdf(pdf_path):
     """Extract all text from a PDF file."""
     doc = fitz.open(pdf_path)
@@ -195,15 +198,15 @@ def extract_text_with_formatting(pdf_path):
 def comprehensive_pdf_extraction(pdf_path,log=False):
     """Perform comprehensive extraction of all PDF data."""
     if log:
-        print(f"Processing PDF: {pdf_path}")
+        printinfo(provider , f"Processing PDF: {pdf_path}")
 
     # Basic information
     try:
         metadata = extract_metadata(pdf_path)
         if log:
-            print(f"PDF has {metadata['page_count']} pages")
+            printinfo(provider,f"PDF has {metadata['page_count']} pages")
     except Exception as e:
-        print(f"Error extracting metadata: {e}")
+        printfail(provider,f"Error extracting metadata: {e}")
         return None
 
     # Extract different types of data
@@ -214,45 +217,45 @@ def comprehensive_pdf_extraction(pdf_path,log=False):
     # Extract text content
     try:
         if log:
-            print("Extracting text content...")
+            printinfo(provider,"Extracting text content...")
         extracted_data['text_content'] = extract_text_from_pdf(pdf_path)
     except Exception as e:
-        print(f"Error extracting text: {e}")
+        printfail(provider,f"Error extracting text: {e}")
         extracted_data['text_content'] = []
 
     # Extract formatted text
     try:
         if log:
-            print("Extracting formatted text...")
+            printinfo(provider,"Extracting formatted text...")
         extracted_data['formatted_text'] = extract_text_with_formatting(pdf_path)
     except Exception as e:
-        print(f"Error extracting formatted text: {e}")
+        printfail(provider,f"Error extracting formatted text: {e}")
         extracted_data['formatted_text'] = []
 
     # Extract fonts info
     try:
         if log:
-            print("Extracting fonts info...")
+            printinfo(provider,"Extracting fonts info...")
         extracted_data['fonts_info'] = extract_fonts_info(pdf_path)
     except Exception as e:
-        print(f"Error extracting fonts info: {e}")
+        printfail(provider,f"Error extracting fonts info: {e}")
         extracted_data['fonts_info'] = []
 
     # Extract links and annotations
     try:
         if log:
-            print("Extracting links and annotations...")
+            printinfo(provider,"Extracting links and annotations...")
         extracted_data['links_and_annotations'] = extract_links_and_annotations(pdf_path)
     except Exception as e:
-        print(f"Error extracting links/annotations: {e}")
+        printfail(provider,f"Error extracting links/annotations: {e}")
         extracted_data['links_and_annotations'] = []
 
     try:
         if log:
-            print("Extracting tables...")
+            printinfo(provider,"Extracting tables...")
         extracted_data['tables'] = extract_tables_from_pdf(pdf_path)
     except Exception as e:
-        print(f"Table extraction failed: {e}")
+        printfail(provider,f"Table extraction failed: {e}")
         extracted_data['tables'] = []
 
     return extracted_data
