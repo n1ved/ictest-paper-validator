@@ -1,3 +1,6 @@
+from config import CONFIG_LOGGER_ENABLED
+
+
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -9,14 +12,24 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+log_enabled = CONFIG_LOGGER_ENABLED
+
 def printwarn(provider,content):
+    if not log_enabled:
+        return
     print(bcolors.WARNING + "[" + provider + "] "+ bcolors.ENDC + content)
 
 def printinfo(provider,content):
+    if not log_enabled:
+        return
     print(bcolors.OKBLUE + "[" + provider + "] "+ bcolors.ENDC + content)
 
 def printsuccess(provider,content):
+    if not log_enabled:
+        return
     print(bcolors.OKGREEN + "[" + provider + "] "+ bcolors.ENDC + content)
 
 def printfail(provider,content):
+    if not log_enabled:
+        return
     print(bcolors.FAIL + "[" + provider + "] "+ bcolors.ENDC + content)
