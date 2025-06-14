@@ -1,3 +1,4 @@
+import abstract_checker
 import extractor
 from guidelines import TITLE_FLAGS, TITLE_FONT_SIZES
 from logger import printinfo, printsuccess, printfail
@@ -47,21 +48,13 @@ def check_title(data,log):
         return False
 
 
-# def check_abstract(log):
-#     if log:
-#         print("**Starting abstract checker...")
-#     with open('extracted_pdf_data.json','r') as file:
-#         data = json.load(file)
-#         first_page_contents = data['text_content'][0]['text']
-#         pattern = r'abstract(.*?)keyword'
-#         matches = re.findall(pattern, first_page_contents , re.IGNORECASE | re.DOTALL)
-#         largest = matches[0]
-#         for i,match in enumerate(matches , 1):
-#             if len(largest) < len(match):
-#                 largest = match
-#         split_abstract = largest.split()
-#         for i in range(0,len(split_abstract)):
-
+def check_abstract(data,log):
+    try:
+        spans = abstract_checker.extract_abstract_spans(data['formatted_text'][0])
+        return abstract_checker.validate_abstract_format(spans)
+    except Exception as e:
+        printfail("ABSTRACT CHECKER", str(e))
+        return False
 
 
 def main(log = False):
@@ -71,9 +64,9 @@ def main(log = False):
         extraction(log , "papers/" + str(i) + ".pdf")
         data = jsonloader(log)
         total_valid &= check_title(data,log)
-        # check_abstract(log)
+        total_valid &= check_abstract(data,log)
         if log:
-            print(f"Total validation result: {'Pass' if total_valid else 'Fail'}")
+            printsuccess("MAIN" , f"Total validation result: {'Pass' if total_valid else 'Fail'}")
     return None
 
 main(log = True)

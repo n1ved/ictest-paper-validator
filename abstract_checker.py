@@ -1,4 +1,10 @@
+from guidelines import check_font, ABSTRACT_FONT_SIZES, ABSTRACT_FLAGS
+from logger import printfail, printsuccess, printinfo
+
+provider = 'ABSTRACT_VALIDATOR'
+
 def extract_abstract_spans(formatted_text):
+    printinfo(provider,"STARTED extraction")
     abstract_spans = []
     in_abstract = False
     for block in formatted_text['blocks']:
@@ -11,14 +17,23 @@ def extract_abstract_spans(formatted_text):
                         continue
                 else:
                     if 'keyword' in text or 'keywords' in text:
+                        printsuccess(provider,"EXTRACTED ABSTRACT SPAN [ keyword found ]")
                         return abstract_spans
+                    elif ''.join(text.split()).strip() == '':
+                            continue
                     abstract_spans.append(span)
+    printsuccess(provider,"EXTRACTED ABSTRACT SPAN [ end of text ]")
     return abstract_spans
 
 def validate_abstract_format(abstract_spans):
+    printinfo(provider, "STARTED validation")
     for span in abstract_spans:
         if not (
-            span['font'] == 'TimesNewRoman,Bold'
-            round(span['size']) == 9
-            span['is_italic']
-        )
+            check_font(span['font']) and
+            round(span['size']) in ABSTRACT_FONT_SIZES
+            and span['flags'] in ABSTRACT_FLAGS
+        ):
+            printfail(provider,"Failed at span: " + " ["+span['text']+"][" + span['font'] + "@" + str(span['size']) + " with flags " + str(span['flags']) + "]")
+            return False
+    printsuccess(provider,"All spans validated")
+    return True
