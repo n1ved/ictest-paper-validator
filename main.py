@@ -1,5 +1,7 @@
 import abstract_checker
 import extractor
+import keyword_checker
+from config import CONFIG_LOGGER_ENABLED
 from guidelines import TITLE_FLAGS, TITLE_FONT_SIZES
 from logger import printinfo, printsuccess, printfail
 import title_checker
@@ -56,6 +58,14 @@ def check_abstract(data,log):
         printfail("ABSTRACT CHECKER", str(e))
         return False
 
+def check_keywords(data, log):
+    try:
+        keywords_spans = keyword_checker.extract_keywords(data['formatted_text'][0])
+        return keyword_checker.validate_keywords_format(keywords_spans)
+    except Exception as e:
+        printfail("KEYWORDS CHECKER", str(e))
+        return False
+
 
 def main(log = False):
     for i in range(0,3):
@@ -65,8 +75,9 @@ def main(log = False):
         data = jsonloader(log)
         total_valid &= check_title(data,log)
         total_valid &= check_abstract(data,log)
+        total_valid &= check_keywords(data,log)
         if log:
             printsuccess("MAIN" , f"Total validation result: {'Pass' if total_valid else 'Fail'}")
     return None
 
-main(log = True)
+main(log = CONFIG_LOGGER_ENABLED)
