@@ -18,7 +18,8 @@ GLOBAL_FONTS_BOLD = [font + ',Bold' for font in GLOBAL_FONTS]
 GLOBAL_FONTS_ITALIC = [font + ',Italic' for font in GLOBAL_FONTS]
 GLOBAL_FONTS_BOLD_ITALIC = [font + ',BoldItalic' for font in GLOBAL_FONTS]
 
-
+# PDFeXpress
+GLOBAL_CREATOR_NAME = "Certified by IEEE PDFeXpress"
 # Title rules
 TITLE_FONT_FAMILIES = GLOBAL_FONTS
 TITLE_FONT_SIZES = [24]
@@ -43,3 +44,4 @@ KEYWORDS_FLAGS = [22]
 # Body text rules
 BODY_FONT_FAMILIES = GLOBAL_FONTS
 BODY_FONT_SIZES = [10]
+

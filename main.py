@@ -2,7 +2,7 @@ import abstract_checker
 import extractor
 import keyword_checker
 from config import CONFIG_LOGGER_ENABLED
-from guidelines import TITLE_FLAGS, TITLE_FONT_SIZES
+from guidelines import TITLE_FLAGS, TITLE_FONT_SIZES, GLOBAL_CREATOR_NAME
 from logger import printinfo, printsuccess, printfail
 import title_checker
 import json
@@ -23,6 +23,8 @@ def extraction(log , pdf_path):
         extracted_data = extractor.comprehensive_pdf_extraction(pdf_path,log=log)
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(extracted_data, f, indent=2, ensure_ascii=False, default=str)
+        with open(pdf_path+'.json', 'w',encoding='utf-8') as f:
+            json.dump(extracted_data, f, indent=2, ensure_ascii=False, default=str)
         if log:
             printsuccess(provider, "EXTRACTION COMPLETED")
     except Exception as e:
@@ -40,6 +42,22 @@ def jsonloader(log):
     except Exception as e:
         printfail("JSONLOADER", str(e))
         return None
+
+def check_express_validation(data, log):
+    if log:
+        printinfo("PDFEXPRESS_VALIDATION", "STARTED")
+    try:
+        creator_inf = data['metadata']['metadata']['creator']
+        if GLOBAL_CREATOR_NAME.lower() not in creator_inf.lower():
+            printfail("PDFEXPRESS_VALIDATION", f"Creator name '{creator_inf}' does not match expected '{GLOBAL_CREATOR_NAME}'")
+            return False
+        if log:
+            printsuccess("PDFEXPRESS_VALIDATION", "PDFExpress validation passed")
+        return True
+    except Exception as e:
+        printfail("PDFEXPRESS_VALIDATION", str(e))
+        return False
+
 
 
 def check_title(data,log):
@@ -72,6 +90,7 @@ def main(paper,log = False):
     total_valid = True
     extraction(log , paper)
     data = jsonloader(log)
+    total_valid &= check_express_validation(data,log)
     total_valid &= check_title(data,log)
     total_valid &= check_abstract(data,log)
     total_valid &= check_keywords(data,log)
