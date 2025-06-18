@@ -67,17 +67,15 @@ def check_keywords(data, log):
         return False
 
 
-def main(log = False):
-    for i in range(0,3):
-        print('\n\033[95m\033[1m' + '[[[[[ ICTEST-CHECKER EXPERIMENTAL RUN ' + str(i) + ' ]]]]]\033[0m\n\n')
-        total_valid = True
-        extraction(log , "papers/" + str(i) + ".pdf")
-        data = jsonloader(log)
-        total_valid &= check_title(data,log)
-        total_valid &= check_abstract(data,log)
-        total_valid &= check_keywords(data,log)
-        if log:
-            printsuccess("MAIN" , f"Total validation result: {'Pass' if total_valid else 'Fail'}")
-    return None
+def main(paper,log = False):
+    print()
+    total_valid = True
+    extraction(log , paper)
+    data = jsonloader(log)
+    total_valid &= check_title(data,log)
+    total_valid &= check_abstract(data,log)
+    total_valid &= check_keywords(data,log)
+    if log:
+        printsuccess("MAIN" , f"Total validation result: {'Pass' if total_valid else 'Fail'}")
+    return total_valid
 
-main(log = CONFIG_LOGGER_ENABLED)
