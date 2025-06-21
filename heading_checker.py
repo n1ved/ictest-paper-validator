@@ -1,5 +1,5 @@
 from guidelines import PAGE_SMALLEST_MARGIN, H1_INDEX_FONT_SIZES, H1_INDEX_FLAGS, H1_FIRST_FONT_SIZES, \
-    H1_REST_FONT_SIZES, H1_REST_FLAGS, H1_FIRST_FLAGS
+    H1_REST_FONT_SIZES, H1_REST_FLAGS, H1_FIRST_FLAGS, check_font
 from logger import printinfo, printfail, printsuccess, printwarn
 
 provider = 'H1_VALIDATOR'
@@ -40,7 +40,6 @@ def extract_h1(formatted_text):
 
 
 def h1_validator(formatted_text, log):
-    provider = 'H1_VALIDATOR'
     if log:
         printinfo(provider, "STARTED")
     try:
@@ -54,6 +53,10 @@ def h1_validator(formatted_text, log):
             cur_h1 = ""
             local_valid = False
             for s in span:
+                if check_font(s['font']) is False and "".join(s['text'].split()).strip() != '':
+                    printfail(provider, f"Font validation failed for span: {s['text']} with font {s['font']}")
+                    valid = False
+                    break
                 if count == 0:
                     if round(s['size']) in H1_INDEX_FONT_SIZES and s['flags'] in H1_INDEX_FLAGS and "".join(s['text'].split()).strip() != '':
                         cur_h1 += s['text'] + " "
