@@ -3,17 +3,21 @@
 Central place for all format and validation rules.
 Edit this file to update font, size, and style requirements for various sections.
 """
+from logger import printfail
+
 
 def check_font(family):
     newfamily = ''.join(family.split()).strip().lower()
     family_valid = False
-    if(newfamily[:13] == GLOBAL_FONTS[0].lower()):
+    if(newfamily[:13] in font.lower() for font in GLOBAL_FONTS):
         family_valid = True
+    else:
+        printfail("FONT_VALIDATOR", f"Font {newfamily[:13]} is not a valid font family. Expected one of: {', '.join(GLOBAL_FONTS)}")
     return family_valid
 
 
 # Global
-GLOBAL_FONTS = ['TimesNewRoman' , 'Times New Roman']
+GLOBAL_FONTS = ['TimesNewRoman' , 'Times New Roman' , 'NimbusRoman' , 'Nimbus Roman No9 L' , 'Nimbus Rom No9 L']
 GLOBAL_FONTS_BOLD = [font + ',Bold' for font in GLOBAL_FONTS]
 GLOBAL_FONTS_ITALIC = [font + ',Italic' for font in GLOBAL_FONTS]
 GLOBAL_FONTS_BOLD_ITALIC = [font + ',BoldItalic' for font in GLOBAL_FONTS]

@@ -60,7 +60,10 @@ def h1_validator(formatted_text, log):
                 if count == 0:
                     if round(s['size']) in H1_INDEX_FONT_SIZES and s['flags'] in H1_INDEX_FLAGS and "".join(s['text'].split()).strip() != '':
                         cur_h1 += s['text'] + " "
-                        count += 1
+                        if len(cur_h1) > len(cur_h1[:(cur_h1.find('.')+1)]):
+                            count += 2
+                        else:
+                            count += 1
                 elif count == 1:
                     if round(s['size']) in H1_FIRST_FONT_SIZES and s['flags'] in H1_FIRST_FLAGS and "".join(s['text'].split()).strip() != '':
                         cur_h1 += s['text'] + " "
