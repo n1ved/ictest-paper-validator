@@ -1,6 +1,7 @@
 import abstract_checker
 import extractor
 import keyword_checker
+import heading_checker
 from config import CONFIG_LOGGER_ENABLED
 from guidelines import TITLE_FLAGS, TITLE_FONT_SIZES, GLOBAL_CREATOR_NAME
 from logger import printinfo, printsuccess, printfail
@@ -84,6 +85,18 @@ def check_keywords(data, log):
         printfail("KEYWORDS CHECKER", str(e))
         return False
 
+def check_h1(data, log):
+    provider = 'H1_VALIDATOR'
+    if log:
+        printinfo(provider, "STARTED")
+    try:
+        formatted_text = data['formatted_text']
+        return heading_checker.h1_validator(formatted_text,log=log)
+    except Exception as e:
+        printfail(provider, f"Error during H1 validation: {str(e)}")
+        return False
+
+
 
 def main(paper,log = False):
     print()
@@ -94,6 +107,7 @@ def main(paper,log = False):
     total_valid &= check_title(data,log)
     total_valid &= check_abstract(data,log)
     total_valid &= check_keywords(data,log)
+    total_valid &= check_h1(data,log)
     if log:
         printsuccess("MAIN" , f"Total validation result: {'Pass' if total_valid else 'Fail'}")
     return total_valid
