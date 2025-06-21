@@ -1,4 +1,4 @@
-from guidelines import check_font, KEYWORDS_FONT_SIZES, KEYWORDS_FLAGS
+from guidelines import check_font, KEYWORDS_FONT_SIZES, KEYWORDS_FLAGS, GLOBAL_IGNORE_CHARS
 from logger import printinfo, printfail
 
 provider = 'KEYWORD_VALIDATOR'
@@ -20,7 +20,7 @@ def extract_keywords(formatted_text):
                     if 'i.' in text:
                         printinfo(provider, "EXTRACTED KEYWORD SPAN [ 'I.' found ]")
                         return keywords_spans
-                    elif ''.join(text.split()).strip() in ['' , '—']:
+                    elif ''.join(text.split()).strip() in GLOBAL_IGNORE_CHARS:
                         continue
                     keywords_spans.append(span)
     printinfo(provider, "EXTRACTED KEYWORD SPAN [ end of text ]")

@@ -22,6 +22,9 @@ GLOBAL_FONTS_BOLD = [font + ',Bold' for font in GLOBAL_FONTS]
 GLOBAL_FONTS_ITALIC = [font + ',Italic' for font in GLOBAL_FONTS]
 GLOBAL_FONTS_BOLD_ITALIC = [font + ',BoldItalic' for font in GLOBAL_FONTS]
 
+# Ignore some characters
+GLOBAL_IGNORE_CHARS = ['\n', '\r', ' ', '', '—', '.', '–', '—', '“', '”', '‘', '’' ]
+
 # PDFeXpress
 GLOBAL_CREATOR_NAME = "Certified by IEEE PDFeXpress"
 # Title rules

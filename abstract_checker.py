@@ -1,4 +1,4 @@
-from guidelines import check_font, ABSTRACT_FONT_SIZES, ABSTRACT_FLAGS
+from guidelines import check_font, ABSTRACT_FONT_SIZES, ABSTRACT_FLAGS, GLOBAL_IGNORE_CHARS
 from logger import printfail, printsuccess, printinfo
 
 provider = 'ABSTRACT_VALIDATOR'
@@ -28,7 +28,9 @@ def extract_abstract_spans(formatted_text):
 def validate_abstract_format(abstract_spans):
     printinfo(provider, "STARTED validation")
     for span in abstract_spans:
-        if not (
+        if span['text'].strip() in GLOBAL_IGNORE_CHARS:
+            continue
+        elif not (
             check_font(span['font']) and
             round(span['size']) in ABSTRACT_FONT_SIZES
             and span['flags'] in ABSTRACT_FLAGS
