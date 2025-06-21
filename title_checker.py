@@ -18,9 +18,11 @@ def validate_title(data, log):
 
         formatted_text = data['formatted_text'][0]
         title_alt = formatted_text['blocks'][0]['lines'][0]['spans'][0]
-        if '©' in title_alt['text']:
-            printwarn(provider,"copyright symbol found in title, skipping to next block.")
-            title_alt = formatted_text['blocks'][1]['lines'][0]['spans'][0]
+        cursor = 1
+        while '©' in title_alt['text'] or "".join(title_alt['text'].split()).strip() == '':
+            printwarn(provider,"copyright symbol or blank space found in title, skipping to next block.")
+            title_alt = formatted_text['blocks'][cursor]['lines'][0]['spans'][0]
+            cursor += 1
         printinfo(provider, "Alt title found: " + str(title_alt['text']))
 
         family = title_alt['font']
