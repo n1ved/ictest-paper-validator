@@ -16,7 +16,7 @@ def extract_abstract_spans(formatted_text):
                         in_abstract = True
                         continue
                 else:
-                    if 'keyword' in text or 'keywords' in text:
+                    if 'keyword' in text or 'keywords' in text or 'index terms' in text:
                         printsuccess(provider,"EXTRACTED ABSTRACT SPAN [ keyword found ]")
                         return abstract_spans
                     elif ''.join(text.split()).strip() == '':

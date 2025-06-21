@@ -12,7 +12,7 @@ def extract_keywords(formatted_text):
             for span in line['spans']:
                 text = span['text'].strip().lower()
                 if not in_keywords:
-                    if 'keywords' in text:
+                    if 'keywords' in text or 'index terms' in text:
                         keywords_spans.append(span)
                         in_keywords = True
                         continue
@@ -28,6 +28,9 @@ def extract_keywords(formatted_text):
 
 def validate_keywords_format(keywords_spans):
     printinfo(provider, "STARTED validation")
+    if not keywords_spans:
+        printfail(provider, "No keywords spans found")
+        return False
     for span in keywords_spans:
         if not (
             check_font(span['font']) and
