@@ -1,5 +1,6 @@
 from guidelines import PAGE_SMALLEST_MARGIN, H1_INDEX_FONT_SIZES, H1_INDEX_FLAGS, H1_FIRST_FONT_SIZES, \
-    H1_REST_FONT_SIZES, H1_REST_FLAGS, H1_FIRST_FLAGS, check_font, H2_FONT_SIZES, PAGE_SECOND_BLOCK_MARGIN
+    H1_REST_FONT_SIZES, H1_REST_FLAGS, H1_FIRST_FLAGS, check_font, H2_FONT_SIZES, PAGE_SECOND_BLOCK_MARGIN, \
+    BODY_FONT_SIZES, H2_FLAGS
 from logger import printinfo, printfail, printsuccess, printwarn
 
 provider = 'H1_VALIDATOR'
@@ -59,10 +60,13 @@ def extract_h2(formatted_text):
                             found_h2 = True
                             in_h2 = 1
                             break
-                    if found_h2:
-                        h2_spans.append(line['spans'])
-                        found_h2 = False
-                        break
+                        elif text[0] in h2_letter_indeces and text[1] == '.' and round(span['size']) in H2_FONT_SIZES and span['flags'] in H2_FLAGS:
+                            printfail(provider, f"Unexpected H2 span: {span} (not in sequence)")
+                            in_h2 += 1
+                            break
+                if found_h2:
+                    h2_spans.append(line['spans'])
+                    found_h2 = False
     printinfo(provider, "EXTRACTED H2 SPAN [ end of text ]")
     return h2_spans
 
