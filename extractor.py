@@ -250,6 +250,21 @@ def comprehensive_pdf_extraction(pdf_path,log=False):
         printfail(provider,f"Error extracting links/annotations: {e}")
         extracted_data['links_and_annotations'] = []
 
+    # WONTFIX
+    # The extracted images is highly prone to getting fragmented so keeping a count of images is highly unreliable.
+    # try:
+    #     printinfo(provider,"Extracting IMGs...")
+    #     doc = fitz.open(pdf_path)
+    #     image_count = 0
+    #     for page_num in range(doc.page_count):
+    #         page = doc[page_num]
+    #         image_list = page.get_images(full=True)
+    #         image_count += len(image_list)
+    #     doc.close()
+    #     extracted_data['images'] = image_count
+    # except Exception as e:
+    #     printfail(provider,f"Error extracting IMGs: {e}")
+
     try:
         if log:
             printinfo(provider,"Extracting tables...")

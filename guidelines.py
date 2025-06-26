@@ -69,3 +69,8 @@ H1_REST_FLAGS = [4]
 H2_FONT_SIZES = [10]
 H2_FLAGS = [6]
 
+# Figure captions
+FIG_CAPTION_SIZES = [8]
+FIG_CAPTION_FLAGS = [4]
+
+

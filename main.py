@@ -1,5 +1,6 @@
 import abstract_checker
 import extractor
+# import fig_checker
 import keyword_checker
 import heading_checker
 from guidelines import GLOBAL_CREATOR_NAME
@@ -104,6 +105,18 @@ def check_h2(data, log):
         printfail(provider, f"Error during H2 validation: {str(e)}")
         return False
 
+# WONTFIX : UNRELIABLE
+# def check_figures(data, log):
+#     provider = 'FIGURE_VALIDATOR'
+#     if log:
+#         printinfo(provider, "STARTED")
+#     try:
+#         formatted_text = data['formatted_text']
+#         count = data['images']
+#         return fig_checker.figure_validator(formatted_text,count,log=log)
+#     except Exception as e:
+#         printfail(provider, f"Error during figure validation: {str(e)}")
+#         return False
 
 
 def main(paper,log = False):
@@ -117,6 +130,7 @@ def main(paper,log = False):
     total_valid &= check_keywords(data,log)
     total_valid &= check_h1(data,log)
     total_valid &= check_h2(data,log)
+    # total_valid &= check_figures(data,log)
     if log:
         printsuccess("MAIN" , f"Total validation result: {'Pass' if total_valid else 'Fail'}")
     return total_valid
