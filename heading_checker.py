@@ -14,24 +14,25 @@ def extract_h1(formatted_text):
     for page in formatted_text:
         for block in page['blocks']:
             for line in block['lines']:
-                if line['bbox'][0] >= PAGE_SMALLEST_MARGIN :
-                    for span in line['spans']:
-                        text = span['text'].strip().lower()
-
-                        if len(text) <= len(roman_numerals[in_h1]) or in_h1 >= len(roman_numerals):
-                            continue
-                        if not(text[:len(roman_numerals[in_h1])] == roman_numerals[in_h1] and text[len(roman_numerals[in_h1])] == '.'):
-                            continue
-                        else:
-                            found_h1 = True
-                            in_h1 += 1
-                            break
-
-
-                    if found_h1:
-                        h1_spans.append(line['spans'])
-                        found_h1 = False
+                for span in line['spans']:
+                    if round(span['size']) not in H1_INDEX_FONT_SIZES:
+                        continue
+                    text = span['text'].strip().lower()
+                    if len(text) <= len(roman_numerals[in_h1]) or in_h1 >= len(roman_numerals):
+                        continue
+                    if not(text[:len(roman_numerals[in_h1])] == roman_numerals[in_h1] and text[len(roman_numerals[in_h1])] == '.'):
+                        if text[:text.find('.')] in roman_numerals :
+                            printfail(provider, f"Unexpected H1 span: {text[:text.find('.')]}. Expected: {roman_numerals[in_h1]}")
+                            return []  # Return empty list if H1 spans are not in sequence
+                        continue
+                    else:
+                        found_h1 = True
+                        in_h1 += 1
                         break
+                if found_h1:
+                    h1_spans.append(line['spans'])
+                    found_h1 = False
+                    break
     printinfo('H1_VALIDATOR', "EXTRACTED H1 SPAN [ end of text ]")
     return h1_spans
 
@@ -62,8 +63,7 @@ def extract_h2(formatted_text):
                             break
                         elif text[0] in h2_letter_indeces and text[1] == '.' and round(span['size']) in H2_FONT_SIZES and span['flags'] in H2_FLAGS:
                             printfail(provider, f"Unexpected H2 span: {span} (not in sequence)")
-                            in_h2 += 1
-                            break
+                            return []  # Return empty list if H2 spans are not in sequence
                 if found_h2:
                     h2_spans.append(line['spans'])
                     found_h2 = False
@@ -84,7 +84,7 @@ def h1_validator(formatted_text, log):
     try:
         h1_spans = extract_h1(formatted_text)
         if not h1_spans:
-            printinfo(provider, "No H1 spans found")
+            printfail(provider, "No H1 spans found")
             return False
         valid = True
         for span in h1_spans:
@@ -92,32 +92,35 @@ def h1_validator(formatted_text, log):
             cur_h1 = ""
             local_valid = False
             for s in span:
-                if check_font(s['font']) is False and "".join(s['text'].split()).strip() != '':
+                font = s['font']
+                size = round(s['size'])
+                flags = s['flags']
+                if check_font(font) is False and "".join(s['text'].split()).strip() != '':
                     printfail(provider, f"Font validation failed for span: {s['text']} with font {s['font']}")
                     valid = False
                     break
                 if count == 0:
-                    if round(s['size']) in H1_INDEX_FONT_SIZES and s['flags'] in H1_INDEX_FLAGS and "".join(s['text'].split()).strip() != '':
-                        cur_h1 += s['text'] + " "
+                    if size in H1_INDEX_FONT_SIZES and flags in H1_INDEX_FLAGS and "".join(s['text'].split()).strip() != '':
+                        cur_h1 += s['text']
                         if len(cur_h1) > len(cur_h1[:(cur_h1.find('.')+1)]):
                             count += 2
                         else:
                             count += 1
                 elif count == 1:
-                    if round(s['size']) in H1_FIRST_FONT_SIZES and s['flags'] in H1_FIRST_FLAGS and "".join(s['text'].split()).strip() != '':
+                    if size in H1_FIRST_FONT_SIZES and flags in H1_FIRST_FLAGS and "".join(s['text'].split()).strip() != '':
                         cur_h1 += s['text'] + " "
                         count += 1
                 elif count == 2:
-                    if round(s['size']) in H1_REST_FONT_SIZES and s['flags'] in H1_REST_FLAGS and "".join(s['text'].split()).strip() != '':
+                    if size in H1_REST_FONT_SIZES and flags in H1_REST_FLAGS and "".join(s['text'].split()).strip() != '':
                         cur_h1 += s['text'] + " "
                         count += 1
                         local_valid = True
                         break
             if not local_valid:
-                printfail(provider, f"H1 validation failed for span: {cur_h1.strip()} with size {s['size']} and flags {s['flags']}")
+                printfail(provider, f"H1 validation failed for span: {cur_h1.strip()} with size {size if size else "" } and flags {flags if flags else ""}")
                 valid = False
             else:
-                printsuccess(provider, f"H1 span validated successfully: {cur_h1.strip()} with size {s['size']} and flags {s['flags']}")
+                printinfo(provider, f"H1 span validated successfully: {cur_h1.strip()} with size {size if size else ""} and flags {flags if flags else ""}")
         if valid:
             printsuccess(provider, "All H1 spans validated successfully")
             return True
@@ -132,7 +135,7 @@ def h2_validator(formatted_text, log):
     try:
         h2_spans = extract_h2(formatted_text)
         if not h2_spans:
-            printinfo(provider, "No H2 spans found")
+            printfail(provider, "No H2 spans found")
             return False
         valid = True
         for span in h2_spans:
