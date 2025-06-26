@@ -72,6 +72,5 @@ if __name__ == "__main__":
         main.main(args.paper, log=True)
     elif args.all:
         runall()
-
     else:
         print("No valid argument provided. Use --demo, --valid, --invalid or --paper <path>")

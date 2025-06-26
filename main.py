@@ -3,6 +3,7 @@ import extractor
 # import fig_checker
 import keyword_checker
 import heading_checker
+import table_checker
 from guidelines import GLOBAL_CREATOR_NAME
 from logger import printinfo, printsuccess, printfail
 import json
@@ -118,6 +119,16 @@ def check_h2(data, log):
 #         printfail(provider, f"Error during figure validation: {str(e)}")
 #         return False
 
+def check_table(data, log):
+    provider = 'TABLE_VALIDATOR'
+    printinfo(provider, "STARTED")
+    try:
+        formatted_text = data['formatted_text']
+        return table_checker.table_validator(formatted_text,len(data['tables']))
+    except Exception as e:
+        printfail(provider, f"Error during table validation: {str(e)}")
+        return False
+
 
 def main(paper,log = False):
     print()
@@ -131,6 +142,7 @@ def main(paper,log = False):
     total_valid &= check_h1(data,log)
     total_valid &= check_h2(data,log)
     # total_valid &= check_figures(data,log)
+    total_valid &= check_table(data,log)
     if log:
         printsuccess("MAIN" , f"Total validation result: {'Pass' if total_valid else 'Fail'}")
     return total_valid
