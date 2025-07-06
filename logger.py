@@ -12,6 +12,21 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+class Logger:
+    logs = []
+
+    @classmethod
+    def add_fail(cls, provider, content):
+        message = f"{provider} : {content}"
+        cls.logs.append(message)
+
+    @classmethod
+    def get_logs(cls):
+        return cls.logs
+
+def logger():
+    return Logger
+
 log_enabled = CONFIG_LOGGER_ENABLED
 
 def printwarn(provider,content):
@@ -33,3 +48,4 @@ def printfail(provider,content):
     if not log_enabled:
         return
     print(bcolors.FAIL + "[" + provider + "] "+ bcolors.ENDC + content)
+    Logger.add_fail(provider, content)

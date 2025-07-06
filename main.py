@@ -10,7 +10,6 @@ import json
 
 from title_checker import validate_title
 
-
 def extraction(log , pdf_path):
     provider = "EXTRACTOR"
     if log:
