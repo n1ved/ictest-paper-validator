@@ -47,6 +47,8 @@ def runall():
     print(f"Results: {results_inv}")
     print(f"Verdict: {'Fail' if total_pass_invalid else 'Pass'}")
 
+    return "Ran ALL"
+
 # imporve a main function to handle terminal arguments if all run everything , if valid run valid papers, if invalid run invalid papers and if demo run demo papers if none of these run the argument as a paper
 if __name__ == "__main__":
     import argparse
