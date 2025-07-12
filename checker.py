@@ -1,5 +1,4 @@
 import main
-from logger import logger, Logger
 
 
 def check(pdf):

@@ -1,7 +1,7 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request
 
 import checker
-from logger import Logger
+from utils.logger import Logger
 
 app = Flask(__name__)
 

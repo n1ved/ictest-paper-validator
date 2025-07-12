@@ -1,14 +1,11 @@
-import abstract_checker
-import extractor
+from checkers import abstract_checker, heading_checker, keyword_checker, table_checker
+from processors import extractor
 # import fig_checker
-import keyword_checker
-import heading_checker
-import table_checker
-from guidelines import GLOBAL_CREATOR_NAME
-from logger import printinfo, printsuccess, printfail
+from configs.guidelines import GLOBAL_CREATOR_NAME
+from utils.logger import printinfo, printsuccess, printfail
 import json
 
-from title_checker import validate_title
+from checkers.title_checker import validate_title
 
 def extraction(log , pdf_path):
     provider = "EXTRACTOR"
@@ -19,7 +16,7 @@ def extraction(log , pdf_path):
     try:
         if log:
             printinfo(provider, "EXTRACTING FROM " + pdf_path)
-        extracted_data = extractor.comprehensive_pdf_extraction(pdf_path,log=log)
+        extracted_data = extractor.comprehensive_pdf_extraction(pdf_path, log=log)
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(extracted_data, f, indent=2, ensure_ascii=False, default=str)
         with open(pdf_path+'.json', 'w',encoding='utf-8') as f:
@@ -89,7 +86,7 @@ def check_h1(data, log):
         printinfo(provider, "STARTED")
     try:
         formatted_text = data['formatted_text']
-        return heading_checker.h1_validator(formatted_text,log=log)
+        return heading_checker.h1_validator(formatted_text, log=log)
     except Exception as e:
         printfail(provider, f"Error during H1 validation: {str(e)}")
         return False
@@ -100,7 +97,7 @@ def check_h2(data, log):
         printinfo(provider, "STARTED")
     try:
         formatted_text = data['formatted_text']
-        return heading_checker.h2_validator(formatted_text,log=log)
+        return heading_checker.h2_validator(formatted_text, log=log)
     except Exception as e:
         printfail(provider, f"Error during H2 validation: {str(e)}")
         return False
@@ -123,7 +120,7 @@ def check_table(data, log):
     printinfo(provider, "STARTED")
     try:
         formatted_text = data['formatted_text']
-        return table_checker.table_validator(formatted_text,len(data['tables']))
+        return table_checker.table_validator(formatted_text, len(data['tables']))
     except Exception as e:
         printfail(provider, f"Error during table validation: {str(e)}")
         return False

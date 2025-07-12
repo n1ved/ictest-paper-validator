@@ -3,7 +3,7 @@
 Central place for all format and validation rules.
 Edit this file to update font, size, and style requirements for various sections.
 """
-from logger import printfail
+from utils.logger import printfail
 
 
 def check_font(family):

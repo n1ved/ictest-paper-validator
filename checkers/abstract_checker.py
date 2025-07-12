@@ -1,5 +1,5 @@
-from guidelines import check_font, ABSTRACT_FONT_SIZES, ABSTRACT_FLAGS, GLOBAL_IGNORE_CHARS
-from logger import printfail, printsuccess, printinfo
+from configs.guidelines import check_font, ABSTRACT_FONT_SIZES, ABSTRACT_FLAGS, GLOBAL_IGNORE_CHARS
+from utils.logger import printfail, printsuccess, printinfo
 
 provider = 'ABSTRACT_VALIDATOR'
 

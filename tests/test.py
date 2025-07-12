@@ -1,5 +1,5 @@
 import main
-from logger import printsuccess, printfail
+from utils.logger import printsuccess, printfail
 def runall():
     print("[format papers]")
     total_pass = True

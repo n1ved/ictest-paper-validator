@@ -1,4 +1,4 @@
-from config import CONFIG_LOGGER_ENABLED
+from configs.config import CONFIG_LOGGER_ENABLED
 
 
 class bcolors:

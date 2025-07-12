@@ -1,7 +1,7 @@
-from guidelines import TITLE_FONT_FAMILIES, check_font
-from guidelines import TITLE_FONT_SIZES
-from guidelines import TITLE_FLAGS
-from logger import printinfo, printfail, printwarn, printsuccess
+from configs.guidelines import check_font
+from configs.guidelines import TITLE_FONT_SIZES
+from configs.guidelines import TITLE_FLAGS
+from utils.logger import printinfo, printfail, printwarn, printsuccess
 
 
 provider = "TITLE_VALIDATOR"

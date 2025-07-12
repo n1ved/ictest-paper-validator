@@ -1,6 +1,5 @@
-from guidelines import TABLE_CAPTION_SIZES, TABLE_CAPTION_FLAGS
-from logger import printinfo, printfail, printsuccess, printwarn
-from title_checker import provider
+from configs.guidelines import TABLE_CAPTION_SIZES, TABLE_CAPTION_FLAGS
+from utils.logger import printinfo, printfail, printsuccess, printwarn
 
 
 def table_validator(formatted_text, table_count):

@@ -2,7 +2,7 @@ import fitz  # PyMuPDF
 import json
 from pathlib import Path
 
-from logger import printinfo, printfail
+from utils.logger import printinfo, printfail
 
 provider = "PDF_EXTRACTOR"
 def extract_text_from_pdf(pdf_path):
@@ -290,7 +290,7 @@ if __name__ == "__main__":
         data = comprehensive_pdf_extraction(pdf_file)
 
         # Save extracted data to JSON
-        output_file = "extracted_pdf_data.json"
+        output_file = "../extracted_pdf_data.json"
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=2, ensure_ascii=False, default=str)
 

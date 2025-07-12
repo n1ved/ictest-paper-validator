@@ -2,7 +2,9 @@
 papers/
 extracted_images/
 *.json
+*.pdf
 test.ipynb
+
 
 #Intermediate files
 .ropeproject/

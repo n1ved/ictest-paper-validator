@@ -1,5 +1,5 @@
-from guidelines import FIG_CAPTION_SIZES, FIG_CAPTION_FLAGS
-from logger import printfail, printsuccess, printwarn, printinfo
+from configs.guidelines import FIG_CAPTION_SIZES, FIG_CAPTION_FLAGS
+from utils.logger import printfail, printsuccess, printwarn, printinfo
 
 provider = 'FIGURE_VALIDATOR'
 

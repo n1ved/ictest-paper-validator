@@ -1,5 +1,5 @@
-from guidelines import check_font, KEYWORDS_FONT_SIZES, KEYWORDS_FLAGS, GLOBAL_IGNORE_CHARS
-from logger import printinfo, printfail
+from configs.guidelines import check_font, KEYWORDS_FONT_SIZES, KEYWORDS_FLAGS, GLOBAL_IGNORE_CHARS
+from utils.logger import printinfo, printfail
 
 provider = 'KEYWORD_VALIDATOR'
 
