@@ -9,3 +9,10 @@ test.ipynb
 #Intermediate files
 .ropeproject/
 __pycache__
+
+#IDEs
+.idea/
+
+#Python
+*.pyc
+.venv
