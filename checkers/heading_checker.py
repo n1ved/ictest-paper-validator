@@ -1,7 +1,8 @@
+from configs.errors import HEADING_LEVEL_1_MISSING, HEADING_FORMAT_MISMATCH
 from configs.guidelines import PAGE_SMALLEST_MARGIN, H1_INDEX_FONT_SIZES, H1_INDEX_FLAGS, H1_FIRST_FONT_SIZES, \
     H1_REST_FONT_SIZES, H1_REST_FLAGS, H1_FIRST_FLAGS, check_font, H2_FONT_SIZES, PAGE_SECOND_BLOCK_MARGIN, \
     H2_FLAGS
-from utils.logger import printinfo, printfail, printsuccess
+from utils.logger import printinfo, printfail, printsuccess, errorlogger
 
 provider = 'H1_VALIDATOR'
 
@@ -85,6 +86,7 @@ def h1_validator(formatted_text, log):
         h1_spans = extract_h1(formatted_text)
         if not h1_spans:
             printfail(provider, "No H1 spans found")
+            errorlogger(provider,HEADING_LEVEL_1_MISSING)
             return False
         valid = True
         for span in h1_spans:
@@ -118,6 +120,7 @@ def h1_validator(formatted_text, log):
                         break
             if not local_valid:
                 printfail(provider, f"H1 validation failed for span: {cur_h1.strip()} with size {size if size else "" } and flags {flags if flags else ""}")
+                errorlogger(provider, HEADING_FORMAT_MISMATCH, cur_h1.strip())
                 valid = False
             else:
                 printinfo(provider, f"H1 span validated successfully: {cur_h1.strip()} with size {size if size else ""} and flags {flags if flags else ""}")
@@ -147,6 +150,7 @@ def h2_validator(formatted_text, log):
                     s['flags'] in H1_REST_FLAGS
                 ):
                     printfail(provider, f"Font validation failed for span: {s['text']} with font {s['font']}")
+                    errorlogger(provider, HEADING_FORMAT_MISMATCH, s['text'])
                     valid = False
                     break
         if valid:

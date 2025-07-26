@@ -1,5 +1,6 @@
+from configs.errors import TABLE_ORDER_MISMATCH, TABLE_COUNT_MISMATCH
 from configs.guidelines import TABLE_CAPTION_SIZES, TABLE_CAPTION_FLAGS
-from utils.logger import printinfo, printfail, printsuccess, printwarn
+from utils.logger import printinfo, printfail, printsuccess, printwarn, errorlogger
 
 
 def table_validator(formatted_text, table_count):
@@ -38,9 +39,19 @@ def table_validator(formatted_text, table_count):
                             printinfo(provider, f"Table {roman_numerals[in_table-1]} found")
                         elif text[5] in roman_numerals:
                             printfail(provider , f"Unexpected table span: {text[:6]}. Expected: TABLE {roman_numerals[in_table]}")
+                            errorlogger(
+                                provider,
+                                TABLE_ORDER_MISMATCH,
+                                "expected TABLE " + roman_numerals[in_table] + " but found " + text[:6]
+                            )
     if in_table == table_count:
         printsuccess(provider, f"All {table_count} tables have been checked")
         return True
     else:
         printfail(provider, f"Table count mismatch: expected {table_count}, found {in_table}")
+        errorlogger(
+            provider,
+            TABLE_COUNT_MISMATCH,
+            f"expected {table_count} tables but found {in_table}"
+        )
         return False

@@ -26,9 +26,11 @@ def check_pdf():
         file_path = f"temp/{file.filename}"
         file.save(file_path)
         result = checker.check(file_path)
+        copy_logs = Logger.get_logs()
+        Logger.clear_logs()
         return jsonify({
             "status": result,
-            "logs": Logger.get_logs()
+            "logs": copy_logs
         }), 200
     else:
         return "Invalid file type", 400

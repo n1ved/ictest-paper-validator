@@ -1,8 +1,9 @@
 from checkers import abstract_checker, heading_checker, keyword_checker, table_checker
+from configs.errors import PDFEXPRESS_NOT_VALIDATED
 from processors import extractor
 # import fig_checker
 from configs.guidelines import GLOBAL_CREATOR_NAME
-from utils.logger import printinfo, printsuccess, printfail
+from utils.logger import printinfo, printsuccess, printfail, errorlogger
 import json
 
 from checkers.title_checker import validate_title
@@ -46,6 +47,7 @@ def check_express_validation(data, log):
         creator_inf = data['metadata']['metadata']['creator']
         if GLOBAL_CREATOR_NAME.lower() not in creator_inf.lower():
             printfail("PDFEXPRESS_VALIDATION", f"Creator name '{creator_inf}' does not match expected '{GLOBAL_CREATOR_NAME}'")
+            errorlogger('PDFEXPRESS_VALIDATION', PDFEXPRESS_NOT_VALIDATED)
             return False
         if log:
             printsuccess("PDFEXPRESS_VALIDATION", "PDFExpress validation passed")

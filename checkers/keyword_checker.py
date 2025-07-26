@@ -1,5 +1,6 @@
+from configs.errors import KEYWORD_NOT_FOUND, KEYWORD_VALIDATION_FAILED
 from configs.guidelines import check_font, KEYWORDS_FONT_SIZES, KEYWORDS_FLAGS, GLOBAL_IGNORE_CHARS
-from utils.logger import printinfo, printfail
+from utils.logger import printinfo, printfail, errorlogger
 
 provider = 'KEYWORD_VALIDATOR'
 
@@ -30,6 +31,10 @@ def validate_keywords_format(keywords_spans):
     printinfo(provider, "STARTED validation")
     if not keywords_spans:
         printfail(provider, "No keywords spans found")
+        errorlogger(
+            provider,
+            KEYWORD_NOT_FOUND
+        )
         return False
     for span in keywords_spans:
         if not (
@@ -38,6 +43,11 @@ def validate_keywords_format(keywords_spans):
             span['flags'] in KEYWORDS_FLAGS
         ):
             printfail(provider, "Failed at span: " + " [" + span['text'] + "][" + span['font'] + "@" + str(span['size']) + " with flags " + str(span['flags']) + "]")
+            errorlogger(
+                provider,
+                KEYWORD_VALIDATION_FAILED,
+                span['text']
+            )
             return False
     printinfo(provider, "All spans validated")
     return True

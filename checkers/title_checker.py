@@ -1,8 +1,8 @@
+from configs.errors import TITLE_VALIDATION_FAILED
 from configs.guidelines import check_font
 from configs.guidelines import TITLE_FONT_SIZES
 from configs.guidelines import TITLE_FLAGS
-from utils.logger import printinfo, printfail, printwarn, printsuccess
-
+from utils.logger import printinfo, printfail, printwarn, printsuccess, errorlogger
 
 provider = "TITLE_VALIDATOR"
 
@@ -62,6 +62,7 @@ def validate_title(data, log):
                 result = len(title_spans) > 0 and local_result
             else:
                 printfail(provider, "Original title failed validation. Title: " + str(collected_title))
+                errorlogger(provider, TITLE_VALIDATION_FAILED , str(collected_title))
                 result = False
         else:
             printinfo(provider, "Alt title passed validation: " + str(title_alt['text']))

@@ -1,5 +1,6 @@
+from configs.errors import ABSTRACT_VALIDATION_FAILED, ABSTRACT_NOT_FOUND
 from configs.guidelines import check_font, ABSTRACT_FONT_SIZES, ABSTRACT_FLAGS, GLOBAL_IGNORE_CHARS
-from utils.logger import printfail, printsuccess, printinfo
+from utils.logger import printfail, printsuccess, printinfo, errorlogger
 
 provider = 'ABSTRACT_VALIDATOR'
 
@@ -23,6 +24,13 @@ def extract_abstract_spans(formatted_text):
                             continue
                     abstract_spans.append(span)
     printsuccess(provider,"EXTRACTED ABSTRACT SPAN [ end of text ]")
+    if not abstract_spans:
+        printfail(provider,"No abstract spans found")
+        errorlogger(
+            provider,
+            ABSTRACT_NOT_FOUND
+        )
+        return []
     return abstract_spans
 
 def validate_abstract_format(abstract_spans):
@@ -36,6 +44,11 @@ def validate_abstract_format(abstract_spans):
             and span['flags'] in ABSTRACT_FLAGS
         ):
             printfail(provider,"Failed at span: " + " ["+span['text']+"][" + span['font'] + "@" + str(span['size']) + " with flags " + str(span['flags']) + "]")
+            errorlogger(
+                provider,
+                ABSTRACT_VALIDATION_FAILED,
+                span['text'],
+            )
             return False
     printsuccess(provider,"All spans validated")
     return True

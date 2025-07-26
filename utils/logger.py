@@ -1,3 +1,5 @@
+from pyexpat.errors import messages
+
 from configs.config import CONFIG_LOGGER_ENABLED
 
 
@@ -13,16 +15,37 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 class Logger:
+    """
+    Logger class to handle logging of failures during validation checks.
+    logs follow the format:
+    [
+        {
+            provider: from which the log is coming,
+            error: error message
+            span: span where the error occurred (optional)
+        }
+    ]
+    """
+
     logs = []
 
     @classmethod
-    def add_fail(cls, provider, content):
-        message = f"{provider} : {content}"
+    def add_fail(cls, provider, error , span=None):
+        message = {
+            'provider': provider,
+            'error': error,
+            'span':span
+        }
         cls.logs.append(message)
 
     @classmethod
     def get_logs(cls):
         return cls.logs
+
+    @classmethod
+    def clear_logs(cls):
+        cls.logs = []
+
 
 def logger():
     return Logger
@@ -48,4 +71,9 @@ def printfail(provider,content):
     if not log_enabled:
         return
     print(bcolors.FAIL + "[" + provider + "] "+ bcolors.ENDC + content)
-    Logger.add_fail(provider, content)
+
+def errorlogger(provider, error, span=None):
+    Logger.add_fail(provider, error, span)
+    print(bcolors.FAIL + "[" + provider + "] " + bcolors.ENDC + error)
+    if span:
+        print(bcolors.FAIL + "Span: " + str(span) + bcolors.ENDC)
