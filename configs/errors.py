@@ -20,5 +20,5 @@ HEADING_FORMAT_MISMATCH = "Heading format mismatch"
 TABLE_COUNT_MISMATCH = "Table count mismatch, this could be due to missing or incorrectly formatted tables/captions."
 TABLE_ORDER_MISMATCH = "Table order mismatch. Please ensure that the tables are numbered correctly according to their order of appearance in the document."
 
-
-
+REFERENCE_ORDER_MISMATCH = "Make sure that the references are numbered in the order of their appearance in the document."
+REFERENCE_INVALID_LATEX = "Invalid LaTeX reference found. Please ensure that the references are formatted correctly according to the IEEE guidelines."

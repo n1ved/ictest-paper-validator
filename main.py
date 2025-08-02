@@ -1,4 +1,5 @@
 from checkers import abstract_checker, heading_checker, keyword_checker, table_checker
+from checkers.ref_checker import ref_validator
 from configs.errors import PDFEXPRESS_NOT_VALIDATED
 from processors import extractor
 # import fig_checker
@@ -127,6 +128,16 @@ def check_table(data, log):
         printfail(provider, f"Error during table validation: {str(e)}")
         return False
 
+def check_references(data, log):
+    provider = 'REF_VALIDATOR'
+    if log:
+        printinfo(provider, "STARTED")
+    try:
+        text_content = data['text_content']
+        return ref_validator(text_content)
+    except Exception as e:
+        printfail(provider, f"Error during reference validation: {str(e)}")
+        return False
 
 def main(paper,log = False):
     print()
@@ -141,6 +152,7 @@ def main(paper,log = False):
     total_valid &= check_h2(data,log)
     # total_valid &= check_figures(data,log)
     total_valid &= check_table(data,log)
+    total_valid &= check_references(data,log)
     if log:
         printsuccess("MAIN" , f"Total validation result: {'Pass' if total_valid else 'Fail'}")
     return total_valid
