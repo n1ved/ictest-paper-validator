@@ -139,12 +139,30 @@ def check_references(data, log):
         printfail(provider, f"Error during reference validation: {str(e)}")
         return False
 
+def check_no_of_pages(data, log):
+    provider = 'PAGE_VALIDATOR'
+    if log:
+        printinfo(provider, "STARTED")
+    try:
+        page_count = len(data['text_content'])
+        if page_count < 6 or page_count > 8:
+            printfail(provider, f"Invalid number of pages: {page_count}")
+            errorlogger(provider, f"Invalid number of pages: {page_count}")
+            return False
+        if log:
+            printsuccess(provider, f"Page count validation passed: {page_count} pages")
+        return True
+    except Exception as e:
+        printfail(provider, f"Error during page count validation: {str(e)}")
+        return False
+
 def main(paper,log = False):
     print()
     total_valid = True
     extraction(log , paper)
     data = jsonloader(log)
     total_valid &= check_express_validation(data,log)
+    total_valid &= check_no_of_pages(data,log)
     total_valid &= check_title(data,log)
     total_valid &= check_abstract(data,log)
     total_valid &= check_keywords(data,log)

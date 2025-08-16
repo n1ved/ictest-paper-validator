@@ -30,11 +30,12 @@ class Logger:
     logs = []
 
     @classmethod
-    def add_fail(cls, provider, error , span=None):
+    def add_fail(cls, provider, error , span=None , page=-1):
         message = {
             'provider': provider,
             'error': error,
-            'span':span
+            'span':span,
+            'page' : page
         }
         cls.logs.append(message)
 

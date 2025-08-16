@@ -8,7 +8,7 @@ def ref_validator(text_content):
     for page in text_content:
         text = page['text'].strip()
         for word in text.split():
-            if word.startswith('[') and word.endswith(']'):
+            if word.contain('[') and word.contain(']'):
                 try:
                     ref_number = int(word[1:-1])
                     if ref_number.is_integer():
