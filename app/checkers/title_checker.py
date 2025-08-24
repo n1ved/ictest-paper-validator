@@ -1,8 +1,6 @@
-from configs.errors import TITLE_VALIDATION_FAILED
-from configs.guidelines import check_font
-from configs.guidelines import TITLE_FONT_SIZES
-from configs.guidelines import TITLE_FLAGS
-from utils.logger import printinfo, printfail, printwarn, printsuccess, errorlogger
+from app.configs.errors import TITLE_VALIDATION_FAILED
+from app.configs.guidelines import check_font, TITLE_FLAGS, TITLE_FONT_SIZES
+from app.utils.logger import printinfo, printfail, printwarn, printsuccess, errorlogger
 
 provider = "TITLE_VALIDATOR"
 

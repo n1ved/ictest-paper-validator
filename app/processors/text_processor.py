@@ -1,5 +1,6 @@
-# Text Processor for Jupyter Notebooks
-# Copy this entire cell and run it in your notebook
+###
+# Text Processor Generated with GPT
+###
 
 import json
 import re

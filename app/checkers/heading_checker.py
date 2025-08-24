@@ -1,8 +1,8 @@
-from configs.errors import HEADING_LEVEL_1_MISSING, HEADING_FORMAT_MISMATCH
-from configs.guidelines import PAGE_SMALLEST_MARGIN, H1_INDEX_FONT_SIZES, H1_INDEX_FLAGS, H1_FIRST_FONT_SIZES, \
+from app.configs.errors import HEADING_LEVEL_1_MISSING, HEADING_FORMAT_MISMATCH
+from app.configs.guidelines import PAGE_SMALLEST_MARGIN, H1_INDEX_FONT_SIZES, H1_INDEX_FLAGS, H1_FIRST_FONT_SIZES, \
     H1_REST_FONT_SIZES, H1_REST_FLAGS, H1_FIRST_FLAGS, check_font, H2_FONT_SIZES, PAGE_SECOND_BLOCK_MARGIN, \
     H2_FLAGS
-from utils.logger import printinfo, printfail, printsuccess, errorlogger
+from app.utils.logger import printinfo, printfail, printsuccess, errorlogger
 
 provider = 'H1_VALIDATOR'
 

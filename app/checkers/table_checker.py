@@ -1,6 +1,6 @@
-from configs.errors import TABLE_ORDER_MISMATCH, TABLE_COUNT_MISMATCH
-from configs.guidelines import TABLE_CAPTION_SIZES, TABLE_CAPTION_FLAGS
-from utils.logger import printinfo, printfail, printsuccess, printwarn, errorlogger
+from app.configs.errors import TABLE_ORDER_MISMATCH, TABLE_COUNT_MISMATCH
+from app.configs.guidelines import TABLE_CAPTION_SIZES, TABLE_CAPTION_FLAGS
+from app.utils.logger import printinfo, printfail, printsuccess, printwarn, errorlogger
 
 
 def table_validator(formatted_text, table_count):

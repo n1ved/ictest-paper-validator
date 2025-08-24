@@ -1,5 +1,5 @@
-from configs.errors import REFERENCE_ORDER_MISMATCH, REFERENCE_INVALID_LATEX
-from utils.logger import errorlogger
+from app.configs.errors import REFERENCE_ORDER_MISMATCH, REFERENCE_INVALID_LATEX
+from app.utils.logger import errorlogger
 
 
 def ref_validator(text_content):

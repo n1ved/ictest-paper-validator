@@ -1,5 +1,5 @@
-import main
-from utils.logger import printsuccess, printfail
+from app.services import validator_service
+from app.app import printsuccess, printfail
 def runall():
     print("[format papers]")
     total_pass = True

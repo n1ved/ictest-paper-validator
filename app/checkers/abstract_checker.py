@@ -1,6 +1,6 @@
-from configs.errors import ABSTRACT_VALIDATION_FAILED, ABSTRACT_NOT_FOUND
-from configs.guidelines import check_font, ABSTRACT_FONT_SIZES, ABSTRACT_FLAGS, GLOBAL_IGNORE_CHARS
-from utils.logger import printfail, printsuccess, printinfo, errorlogger
+from app.configs.errors import ABSTRACT_VALIDATION_FAILED, ABSTRACT_NOT_FOUND
+from app.configs.guidelines import check_font, ABSTRACT_FONT_SIZES, ABSTRACT_FLAGS, GLOBAL_IGNORE_CHARS
+from app.utils.logger import printfail, printsuccess, printinfo, errorlogger
 
 provider = 'ABSTRACT_VALIDATOR'
 

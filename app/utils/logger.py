@@ -1,6 +1,4 @@
-from pyexpat.errors import messages
-
-from configs.config import CONFIG_LOGGER_ENABLED
+from app.configs.config import CONFIG_LOGGER_ENABLED
 
 
 class bcolors:

@@ -1,20 +1,20 @@
-from checkers import abstract_checker, heading_checker, keyword_checker, table_checker
-from checkers.ref_checker import ref_validator
-from configs.errors import PDFEXPRESS_NOT_VALIDATED
-from processors import extractor
+from app.checkers import heading_checker, keyword_checker, abstract_checker, table_checker
+from app.checkers.ref_checker import ref_validator
+from app.configs.errors import PDFEXPRESS_NOT_VALIDATED
+from app.processors import extractor
 # import fig_checker
-from configs.guidelines import GLOBAL_CREATOR_NAME
-from utils.logger import printinfo, printsuccess, printfail, errorlogger
+from app.configs.guidelines import GLOBAL_CREATOR_NAME
+from app.utils.logger import printinfo, printsuccess, printfail, errorlogger
 import json
 
-from checkers.title_checker import validate_title
+from app.checkers.title_checker import validate_title
 
 def extraction(log , pdf_path):
     provider = "EXTRACTOR"
     if log:
         printinfo(provider, "STARTED")
     pdf_path = pdf_path
-    output_file = "./extracted_pdf_data.json"
+    output_file = "../../extracted_pdf_data.json"
     try:
         if log:
             printinfo(provider, "EXTRACTING FROM " + pdf_path)
@@ -32,7 +32,7 @@ def jsonloader(log):
     if log:
         printinfo("JSONLOADER", "STARTED")
     try:
-        with open('extracted_pdf_data.json', 'r') as file:
+        with open('../../extracted_pdf_data.json', 'r') as file:
             data = json.load(file)
         if log:
             printsuccess("JSONLOADER", "LOADED JSON DATA")

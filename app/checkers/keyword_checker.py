@@ -1,6 +1,6 @@
-from configs.errors import KEYWORD_NOT_FOUND, KEYWORD_VALIDATION_FAILED
-from configs.guidelines import check_font, KEYWORDS_FONT_SIZES, KEYWORDS_FLAGS, GLOBAL_IGNORE_CHARS
-from utils.logger import printinfo, printfail, errorlogger
+from app.configs.errors import KEYWORD_NOT_FOUND, KEYWORD_VALIDATION_FAILED
+from app.configs.guidelines import check_font, KEYWORDS_FONT_SIZES, KEYWORDS_FLAGS, GLOBAL_IGNORE_CHARS
+from app.utils.logger import printinfo, printfail, errorlogger
 
 provider = 'KEYWORD_VALIDATOR'
 
