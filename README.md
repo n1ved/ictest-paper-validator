@@ -4,13 +4,13 @@
 ---
 ### Description
 
-Syntax based format validation for papers submitted to [ICTEST](https://ictest.in/)
+A Flask-based API for syntax-based format validation of papers submitted to [ICTEST](https://ictest.in/).  
 
 ### Setup
 
 ```bash
-git clone https://github.com/n1ved/ictest-checker.git
-cd ictest-checker
+git clone https://github.com/n1ved/ictest-paper-validator.git
+cd ictest-paper-validator
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
@@ -22,7 +22,7 @@ flask run
 ```bash
 curl 
   --request POST \
-  --url http://localhost:5000/checkpdf \
+  --url http://localhost:5000/validate \
   --header 'content-type: multipart/form-data' \
   --form file=@file
 ```
@@ -36,7 +36,8 @@ curl
       "span": string | null
     }
   ],
-  "status": boolean
+  "status": "success"
+  "validation" : "pass" | "fail"
 }
 ```
 
