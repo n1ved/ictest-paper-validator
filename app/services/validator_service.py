@@ -1,5 +1,5 @@
 from app.checkers import heading_checker, keyword_checker, abstract_checker, table_checker
-from app.checkers.ref_checker import ref_validator
+from app.checkers.reference_checker import ref_validator
 from app.configs.errors import PDFEXPRESS_NOT_VALIDATED
 from app.processors import extractor
 # import fig_checker
