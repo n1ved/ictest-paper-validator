@@ -3,7 +3,7 @@ from app.checkers.ref_checker import ref_validator
 from app.configs.errors import PDFEXPRESS_NOT_VALIDATED
 from app.processors import extractor
 # import fig_checker
-from app.configs.guidelines import GLOBAL_CREATOR_NAME
+from app.configs.guidelines import GLOBAL_CREATOR_NAME, MIN_PAGES, MAX_PAGES
 from app.utils.logger import printinfo, printsuccess, printfail, errorlogger
 import json
 
@@ -145,7 +145,7 @@ def check_no_of_pages(data, log):
         printinfo(provider, "STARTED")
     try:
         page_count = len(data['text_content'])
-        if page_count < 6 or page_count > 8:
+        if page_count < MIN_PAGES or page_count > MAX_PAGES:
             printfail(provider, f"Invalid number of pages: {page_count}")
             errorlogger(provider, f"Invalid number of pages: {page_count}")
             return False

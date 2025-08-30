@@ -2,6 +2,7 @@ from app.configs.errors import TABLE_ORDER_MISMATCH, TABLE_COUNT_MISMATCH
 from app.configs.guidelines import TABLE_CAPTION_SIZES, TABLE_CAPTION_FLAGS
 from app.utils.logger import printinfo, printfail, printsuccess, printwarn, errorlogger
 
+# TODO: Sometimes the table extractor identifies non-tables as table look into this (Ref /papers/invalid/7V.pdf)
 
 def table_validator(formatted_text, table_count):
     provider = 'TABLE_VALIDATOR'
