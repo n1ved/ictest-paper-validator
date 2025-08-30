@@ -1,4 +1,6 @@
 from flask import Blueprint, request , jsonify
+
+from app.configs.errors import API_ERROR_NO_FILE, API_ERROR_NO_SELECTED_FILE, API_ERROR_INVALID_FILE_TYPE
 from app.services import validator_service
 from app.utils import logger
 
@@ -11,12 +13,12 @@ def ping():
 @api_bp.route('/validate', methods=['POST'])
 def validate_pdf():
     if 'file' not in request.files:
-        return jsonify({'status': 'error', 'message': 'Request does not contain any files'}), 400
+        return jsonify({'status': 'error', 'message': API_ERROR_NO_FILE}), 400
     file = request.files['file']
     if file.filename == '':
-        return jsonify({'status': 'error', 'message': 'No file selected'}), 400
+        return jsonify({'status': 'error', 'message': API_ERROR_NO_SELECTED_FILE}), 400
     if not file.filename.endswith('.pdf'):
-        return jsonify({'status': 'error', 'message': 'Invalid file type, only PDF allowed'}), 400
+        return jsonify({'status': 'error', 'message': API_ERROR_INVALID_FILE_TYPE}), 400
     file_path = f"temp/{file.filename}"
     file.save(file_path)
     is_valid = validator_service.main(file_path, log=True)

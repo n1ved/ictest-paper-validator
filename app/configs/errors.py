@@ -22,3 +22,7 @@ TABLE_ORDER_MISMATCH = "Table order mismatch. Please ensure that the tables are 
 
 REFERENCE_ORDER_MISMATCH = "Make sure that the references are numbered in the order of their appearance in the document."
 REFERENCE_INVALID_LATEX = "Invalid LaTeX reference found. Please ensure that the references are formatted correctly according to the IEEE guidelines."
+
+API_ERROR_NO_FILE = "Request does not contain any files"
+API_ERROR_NO_SELECTED_FILE = "No file selected"
+API_ERROR_INVALID_FILE_TYPE = "Invalid file type, only PDF allowed"
