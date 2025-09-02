@@ -4,6 +4,7 @@ from app.configs.errors import PDFEXPRESS_NOT_VALIDATED
 from app.processors import extractor
 # import fig_checker
 from app.configs.guidelines import GLOBAL_CREATOR_NAME, MIN_PAGES, MAX_PAGES
+from app.services.pdf_renderer import render_pdf_from_extracted, add_watermark
 from app.utils.logger import printinfo, printsuccess, printfail, errorlogger
 import json
 
@@ -171,6 +172,7 @@ def main(paper,log = False):
     # total_valid &= check_figures(data,log)
     total_valid &= check_table(data,log)
     total_valid &= check_references(data,log)
+    render_pdf_from_extracted(data,'rendered_output.pdf')
     if log:
         printsuccess("MAIN" , f"Total validation result: {'Pass' if total_valid else 'Fail'}")
     return total_valid
