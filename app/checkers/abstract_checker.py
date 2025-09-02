@@ -47,7 +47,7 @@ def validate_abstract_format(abstract_spans):
             errorlogger(
                 provider,
                 ABSTRACT_VALIDATION_FAILED,
-                span['text'],
+                span,
             )
             return False
     printsuccess(provider,"All spans validated")

@@ -13,7 +13,7 @@ FONT_MAP = {
 def map_font(font_name):
     return FONT_MAP.get(font_name.split(',')[0], 'Times-Roman')
 
-def add_watermark(canvas_obj, text="Correction reference, not exact copy of submitted paper", opacity=0.5, font_size=30):
+def add_watermark(canvas_obj, text="CORRECTION REFERENCE, NOT EXACT COPY OF SUBMITTED PAPER", opacity=0.9, font_size=24):
     width, height = A4
     canvas_obj.saveState()
     canvas_obj.setFont("Times-Roman", font_size)
@@ -57,7 +57,7 @@ def render_pdf_from_extracted(extracted_data, output_path , error_spans=None):
                     }
                     if is_error_span(locator, error_spans):
                         c.saveState()
-                        c.setFillColorRGB(1, 0, 0)  # Red text
+                        c.setFillColorRGB(1, 0, 0)
                         try:
                             c.setFont(font, size)
                         except Exception:

@@ -46,7 +46,7 @@ def validate_keywords_format(keywords_spans):
             errorlogger(
                 provider,
                 KEYWORD_VALIDATION_FAILED,
-                span['text']
+                span,
             )
             return False
     printinfo(provider, "All spans validated")

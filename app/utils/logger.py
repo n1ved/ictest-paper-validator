@@ -56,8 +56,8 @@ class Logger:
     @classmethod
     def set_error_span(cls, span):
         span_check_res = find_span_location(cls.formatted_text,span)
-        if span_check_res:
-            cls.error_spans.append(span_check_res)
+        for spans in span_check_res:
+                cls.error_spans.append(spans)
 
     @classmethod
     def get_error_spans(cls):
@@ -91,8 +91,13 @@ def printfail(provider,content):
     print(bcolors.FAIL + "[" + provider + "] "+ bcolors.ENDC + content)
 
 def errorlogger(provider, error, span=None):
-    Logger.add_fail(provider, error, span)
-    Logger.set_error_span(span)
+    t_spans = []
+    if isinstance(span, list):
+        t_spans = span
+    else:
+        t_spans.append(span)
+    Logger.add_fail(provider, error, t_spans)
+    Logger.set_error_span(t_spans)
     print(bcolors.FAIL + "[" + provider + "] " + bcolors.ENDC + error)
     if span:
         print(bcolors.FAIL + "Span: " + str(span) + bcolors.ENDC)

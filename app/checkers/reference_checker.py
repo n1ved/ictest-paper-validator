@@ -84,3 +84,21 @@ def ref_validator(text_content):
                         )
                         return False
     return True
+
+def ref_section_format_validator(ref_page):
+    provider = 'REF_SECTION_VALIDATOR'
+    lines = ref_page.split('\n')
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
+        if re.match(r'^\[\d+\]', line):
+            continue
+        else:
+            errorlogger(
+                provider,
+                REFERENCE_INVALID_LATEX,
+                f"Reference line '{line}' is not properly formatted.",
+            )
+            return False
+    return True
