@@ -120,7 +120,7 @@ def h1_validator(formatted_text, log):
                         break
             if not local_valid:
                 printfail(provider, f"H1 validation failed for span: {cur_h1.strip()} with size {size if size else "" } and flags {flags if flags else ""}")
-                errorlogger(provider, HEADING_FORMAT_MISMATCH, cur_h1.strip())
+                errorlogger(provider, HEADING_FORMAT_MISMATCH, span)
                 valid = False
             else:
                 printinfo(provider, f"H1 span validated successfully: {cur_h1.strip()} with size {size if size else ""} and flags {flags if flags else ""}")
