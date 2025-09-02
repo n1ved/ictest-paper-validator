@@ -5,7 +5,7 @@ from app.processors import extractor
 # import fig_checker
 from app.configs.guidelines import GLOBAL_CREATOR_NAME, MIN_PAGES, MAX_PAGES
 from app.services.pdf_renderer import render_pdf_from_extracted, add_watermark
-from app.utils.logger import printinfo, printsuccess, printfail, errorlogger
+from app.utils.logger import printinfo, printsuccess, printfail, errorlogger, Logger
 import json
 
 from app.checkers.title_checker import validate_title
@@ -162,6 +162,7 @@ def main(paper,log = False):
     total_valid = True
     extraction(log , paper)
     data = jsonloader(log)
+    Logger.set_formatted_text(data['formatted_text'])
     total_valid &= check_express_validation(data,log)
     total_valid &= check_no_of_pages(data,log)
     total_valid &= check_title(data,log)
@@ -172,7 +173,7 @@ def main(paper,log = False):
     # total_valid &= check_figures(data,log)
     total_valid &= check_table(data,log)
     total_valid &= check_references(data,log)
-    render_pdf_from_extracted(data,'rendered_output.pdf')
+    render_pdf_from_extracted(data,'rendered_output.pdf', Logger.get_error_spans())
     if log:
         printsuccess("MAIN" , f"Total validation result: {'Pass' if total_valid else 'Fail'}")
     return total_valid

@@ -1,4 +1,5 @@
 from app.configs.config import CONFIG_LOGGER_ENABLED
+from app.utils.span_finder import find_span_location
 
 
 class bcolors:
@@ -26,6 +27,12 @@ class Logger:
     """
 
     logs = []
+    error_spans = []
+    formatted_text = None
+
+    @classmethod
+    def set_formatted_text(cls, formatted_text):
+        cls.formatted_text = formatted_text
 
     @classmethod
     def add_fail(cls, provider, error , span=None , page=-1):
@@ -43,7 +50,19 @@ class Logger:
 
     @classmethod
     def clear_logs(cls):
+        cls.error_spans = []
         cls.logs = []
+
+    @classmethod
+    def set_error_span(cls, span):
+        span_check_res = find_span_location(cls.formatted_text,span)
+        if span_check_res:
+            cls.error_spans.append(span_check_res)
+
+    @classmethod
+    def get_error_spans(cls):
+        return cls.error_spans
+
 
 
 def logger():
@@ -73,6 +92,7 @@ def printfail(provider,content):
 
 def errorlogger(provider, error, span=None):
     Logger.add_fail(provider, error, span)
+    Logger.set_error_span(span)
     print(bcolors.FAIL + "[" + provider + "] " + bcolors.ENDC + error)
     if span:
         print(bcolors.FAIL + "Span: " + str(span) + bcolors.ENDC)
