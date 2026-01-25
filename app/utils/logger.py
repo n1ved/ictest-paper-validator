@@ -56,6 +56,19 @@ class Logger:
         cls.logs.append(message)
 
     @classmethod
+    def add_log(cls, provider, message, msg_type='INFO', data=None):
+        """Add a generic log message (non-error)."""
+        log_entry = {
+            'provider': provider,
+            'error': message, # Reusing 'error' field for compatibility with report generator
+            'msg_type': msg_type,
+            'data': data,
+            'span': None,
+            'page': -1
+        }
+        cls.logs.append(log_entry)
+
+    @classmethod
     def get_logs(cls):
         return cls.logs
 
@@ -114,4 +127,10 @@ def errorlogger(provider, error, span=None):
         print(bcolors.FAIL + "[" + provider + "] " + bcolors.ENDC + error)
         if span:
             print(bcolors.FAIL + "Span: " + str(span) + bcolors.ENDC)
+
+
+def infologger(provider, message, msg_type='INFO', data=None):
+    """Logs info to both stdout (if enabled) and Logger storage."""
+    Logger.add_log(provider, message, msg_type=msg_type, data=data)
+    printinfo(provider, message)
 
