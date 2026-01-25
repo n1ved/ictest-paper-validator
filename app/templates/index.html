@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICTest Format Checker</title>
+    <style>
+        body {
+            font-family: monospace;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            background: #f0f0f0;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 0.5rem;
+        }
+
+        .upload-section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: #e9ecef;
+            border-radius: 4px;
+        }
+
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        .logs {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            margin-top: 1rem;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .status-pass {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .status-fail {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .download-link {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .log-entry {
+            margin-bottom: 0px;
+            white-space: nowrap;
+        }
+
+        .log-error {
+            color: #ff6b6b;
+        }
+
+        .log-info {
+            color: #4dabf7;
+        }
+
+        .log-success {
+            color: #51cf66;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>ICTest Format Checker</h1>
+
+        <div class="upload-section">
+            <form action="/" method="post" enctype="multipart/form-data">
+                <p>Select a PDF paper to validate:</p>
+                <input type="file" name="file" accept=".pdf" required>
+                <button type="submit" class="btn">Check Format</button>
+            </form>
+        </div>
+
+        {% if result %}
+        <div class="result-section">
+            <h2>Validation Result:
+                <span class="{{ 'status-pass' if result == 'pass' else 'status-fail' }}">
+                    {{ result|upper }}
+                </span>
+            </h2>
+
+            {% if download_link %}
+            <a href="{{ download_link }}" class="download-link">Download Annotated PDF</a>
+            {% endif %}
+
+            <h3>Logs:</h3>
+            <div class="logs">
+                {% for log in logs %}
+                <div class="log-entry">
+                    <span class="log-provider">[{{ log.provider }}]</span>
+                    <span
+                        class="{{ 'log-error' if 'error' in log.error.lower() or 'fail' in log.error.lower() else 'log-success' }}">
+                        {{ log.error }}
+                    </span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+
+</html>
