@@ -18,12 +18,12 @@ def extract_abstract_spans(formatted_text):
                         continue
                 else:
                     if 'keyword' in text or 'keywords' in text or 'index terms' in text:
-                        printsuccess(provider,"EXTRACTED ABSTRACT SPAN [ keyword found ]")
+                        printinfo(provider,"EXTRACTED ABSTRACT SPAN [ keyword found ]")
                         return abstract_spans
                     elif ''.join(text.split()).strip() == '':
                             continue
                     abstract_spans.append(span)
-    printsuccess(provider,"EXTRACTED ABSTRACT SPAN [ end of text ]")
+    printinfo(provider,"EXTRACTED ABSTRACT SPAN [ end of text ]")
     if not abstract_spans:
         printfail(provider,"No abstract spans found")
         errorlogger(

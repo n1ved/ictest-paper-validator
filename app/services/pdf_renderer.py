@@ -71,4 +71,4 @@ def render_pdf_from_extracted(extracted_data, output_path , error_spans=None):
 
 
     c.save()
-    printsuccess("PDF_RENDERER", f"PDF rendering completed and saved to {output_path}")
+    printinfo("PDF_RENDERER", f"PDF rendering completed and saved to {output_path}")

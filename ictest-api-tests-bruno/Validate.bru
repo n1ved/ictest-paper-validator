@@ -1,0 +1,20 @@
+meta {
+  name: Validate
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:5000/validate
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  file: @file(/home/n1ved/Documents/codes/ictest-format-checker/papers/invalid/1.pdf)
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
