@@ -1,4 +1,4 @@
-from app.checkers import heading_checker, keyword_checker, abstract_checker, table_checker
+from app.checkers import heading_checker, keyword_checker, abstract_checker, table_checker, author_checker
 from app.checkers.reference_checker import ref_validator
 from app.configs.errors import PDFEXPRESS_NOT_VALIDATED
 from app.processors import extractor
@@ -119,6 +119,14 @@ def check_h2(data, log):
 #         printfail(provider, f"Error during figure validation: {str(e)}")
 #         return False
 
+def check_authors(data, log):
+    try:
+        author_checker.extract_authors(data['formatted_text'])
+        return True # Always return True as this is just extraction/info
+    except Exception as e:
+        printfail("AUTHOR_EXTRACTOR", str(e))
+        return True
+
 def check_table(data, log):
     provider = 'TABLE_VALIDATOR'
     printinfo(provider, "STARTED")
@@ -171,6 +179,7 @@ def main(paper,log = False):
     total_valid &= check_h1(data,log)
     total_valid &= check_h2(data,log)
     # total_valid &= check_figures(data,log)
+    total_valid &= check_authors(data, log)
     total_valid &= check_table(data,log)
     total_valid &= check_references(data,log)
     render_pdf_from_extracted(data,'rendered_output.pdf', Logger.get_error_spans())

@@ -44,6 +44,20 @@ class ReportGenerator:
         report.append(f"**Status:** {status_icon} {status_text}")
         report.append("")
         
+        # Extract Author Info
+        author_logs = [log for log in logs if log.get('msg_type') == 'REPORT_DATA']
+        authors = []
+        for log in author_logs:
+            data = log.get('data', {})
+            if data and data.get('key') == 'author_email':
+                authors.append(data.get('value'))
+        
+        if authors:
+            report.append("## Detected Authors")
+            for author in authors:
+                report.append(f"- {author}")
+            report.append("")
+
         if is_valid:
             report.append("## Summary")
             report.append("Great job! Your paper passed all format checks. It adheres to the required guidelines.")
@@ -58,6 +72,11 @@ class ReportGenerator:
         for log in logs:
             # logs are dicts: {'provider': str, 'error': str, 'span': ...}
             provider = log.get('provider', 'UNKNOWN')
+            
+            # Skip Author Extractor in issues list since we handled it above
+            if provider == 'AUTHOR_EXTRACTOR':
+                continue
+
             error = log.get('error', 'Unknown error')
             
             friendly_provider = ReportGenerator.PROVIDER_MAP.get(provider, provider)
