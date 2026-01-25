@@ -13,6 +13,17 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+class LogLevel:
+    DEBUG = 1
+    INFO = 2
+
+# Default log level
+current_log_level = LogLevel.DEBUG
+
+def set_log_level(level):
+    global current_log_level
+    current_log_level = level
+
 class Logger:
     """
     Logger class to handle logging of failures during validation checks.
@@ -71,22 +82,22 @@ def logger():
 log_enabled = CONFIG_LOGGER_ENABLED
 
 def printwarn(provider,content):
-    if not log_enabled:
+    if not log_enabled or current_log_level > LogLevel.INFO:
         return
     print(bcolors.WARNING + "[" + provider + "] "+ bcolors.ENDC + content)
 
 def printinfo(provider,content):
-    if not log_enabled:
+    if not log_enabled or current_log_level > LogLevel.DEBUG:
         return
     print(bcolors.OKBLUE + "[" + provider + "] "+ bcolors.ENDC + content)
 
 def printsuccess(provider,content):
-    if not log_enabled:
+    if not log_enabled or current_log_level > LogLevel.INFO:
         return
     print(bcolors.OKGREEN + "[" + provider + "] "+ bcolors.ENDC + content)
 
 def printfail(provider,content):
-    if not log_enabled:
+    if not log_enabled or current_log_level > LogLevel.INFO:
         return
     print(bcolors.FAIL + "[" + provider + "] "+ bcolors.ENDC + content)
 
@@ -98,6 +109,9 @@ def errorlogger(provider, error, span=None):
         t_spans.append(span)
     Logger.add_fail(provider, error, t_spans)
     Logger.set_error_span(t_spans)
-    print(bcolors.FAIL + "[" + provider + "] " + bcolors.ENDC + error)
-    if span:
-        print(bcolors.FAIL + "Span: " + str(span) + bcolors.ENDC)
+    
+    if log_enabled and current_log_level <= LogLevel.INFO:
+        print(bcolors.FAIL + "[" + provider + "] " + bcolors.ENDC + error)
+        if span:
+            print(bcolors.FAIL + "Span: " + str(span) + bcolors.ENDC)
+

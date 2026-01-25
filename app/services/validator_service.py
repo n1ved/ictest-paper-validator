@@ -25,7 +25,7 @@ def extraction(log , pdf_path):
         with open(pdf_path+'.json', 'w',encoding='utf-8') as f:
             json.dump(extracted_data, f, indent=2, ensure_ascii=False, default=str)
         if log:
-            printsuccess(provider, "EXTRACTION COMPLETED")
+            printinfo(provider, "EXTRACTION COMPLETED")
     except Exception as e:
         printfail(provider, str(e))
 
@@ -36,7 +36,7 @@ def jsonloader(log):
         with open('../../extracted_pdf_data.json', 'r') as file:
             data = json.load(file)
         if log:
-            printsuccess("JSONLOADER", "LOADED JSON DATA")
+            printinfo("JSONLOADER", "LOADED JSON DATA")
         return data
     except Exception as e:
         printfail("JSONLOADER", str(e))

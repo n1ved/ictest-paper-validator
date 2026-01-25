@@ -27,7 +27,7 @@ def table_validator(formatted_text, table_count):
                     if len(text) < 6 :
                         prevalidate =  roman_numerals[in_table] == line['spans'][-1]['text'].strip()
                     if text[:5] == 'TABLE':
-                        printwarn(provider, f"Found table span: {span['text']}")
+                        printinfo(provider, f"Found table span: {span['text']}")
                         if prevalidate:
                             printinfo(provider, f"Found table span: {span['text']}")
                             prevalidate = False

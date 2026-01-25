@@ -12,6 +12,7 @@ def ping():
 
 @api_bp.route('/validate', methods=['POST'])
 def validate_pdf():
+    print(request)
     if 'file' not in request.files:
         return jsonify({'status': 'error', 'message': API_ERROR_NO_FILE}), 400
     file = request.files['file']
