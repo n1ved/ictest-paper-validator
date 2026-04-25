@@ -60,11 +60,18 @@ def validate_folder(input_folder):
                     from app.services.report_generator import ReportGenerator
                     
                     logs = Logger.get_logs()
-                    report_content = ReportGenerator.generate_report(paper_file.name, is_valid, logs)
                     
-                    report_file = output_dir / f"{paper_file.stem}_report.md"
-                    with open(report_file, "w") as rf:
-                        rf.write(report_content)
+                    # Generate Markdown Report
+                    md_report_content = ReportGenerator.generate_report(paper_file.name, is_valid, logs)
+                    md_report_file = output_dir / f"{paper_file.stem}_report.md"
+                    with open(md_report_file, "w") as rf:
+                        rf.write(md_report_content)
+                        
+                    # Generate HTML Report
+                    html_report_content = ReportGenerator.generate_html_report(paper_file.name, is_valid, logs)
+                    html_report_file = output_dir / f"{paper_file.stem}_report.html"
+                    with open(html_report_file, "w") as rf:
+                        rf.write(html_report_content)
                     
                     # Log report generation (will show in cleanup log mode or debug)
                     # print(f"Report generated: {report_file}") # Optional, suppressed by redirec_stdout anyway

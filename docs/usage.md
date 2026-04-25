@@ -82,13 +82,15 @@ path/to/your/pdf/folder/
 └── output/
     ├── paper1_validated.pdf       # Annotated PDF with red error highlights
     ├── paper1_report.md           # User-friendly Markdown validation report
+    ├── paper1_report.html         # User-friendly HTML validation report
     ├── paper2_validated.pdf
-    └── paper2_report.md
+    ├── paper2_report.md
+    └── paper2_report.html
 ```
 
 **What it does:**
 For every `.pdf` file found:
 1. It runs the complete validation suite.
-2. It generates a human-readable markdown report (`_report.md`) detailing the issues.
+2. It generates human-readable reports in both Markdown (`_report.md`) and HTML (`_report.html`) formats detailing the issues.
 3. It generates the annotated PDF (`_validated.pdf`).
 4. It redirects standard console output to a `.log` file for debugging purposes.
