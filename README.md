@@ -20,6 +20,10 @@ flask run
 
 ### Usage
 
+There are three main ways to use the ICTEST Format Checker: **Web Interface**, **API**, and **Batch Processing**. 
+
+**For full details on each method, including the batch processing script (`folder_validate.py`), please see the [Usage Guide](docs/usage.md).**
+
 **Web Interface:**
 Simply navigate to `http://localhost:5000/` in your browser to upload a PDF and view the validation report and annotated output PDF directly.
 

@@ -6,14 +6,17 @@ This repository uses a Flask-based backend to extract text, fonts, layout, and m
 
 ## Documentation Index
 
-1. **[Architecture Overview](architecture.md)**
+1. **[Usage Guide](usage.md)**
+   Provides instructions on how to use the web interface, the REST API, and the batch processing script (`folder_validate.py`).
+
+2. **[Architecture Overview](architecture.md)**
    Provides a high-level view of how the system works, from the moment a user uploads a PDF to the final report generation.
 
-2. **[Extraction and Processing Component](components/extraction_and_processing.md)**
+3. **[Extraction and Processing Component](components/extraction_and_processing.md)**
    Explains how PyMuPDF is used to extract detailed formatting information (text blocks, fonts, sizes, spans) and how this data is structured for the checkers.
 
-3. **[Formatting Checkers](components/checkers.md)**
+4. **[Formatting Checkers](components/checkers.md)**
    Detailed documentation on each individual checker (e.g., Title, Abstract, Headings, Tables, References) and the specific rules they validate.
 
-4. **[Logging and Reporting](components/logging_and_reporting.md)**
+5. **[Logging and Reporting](components/logging_and_reporting.md)**
    Describes how formatting errors are recorded, how user-friendly markdown reports are generated, and how the system renders a PDF with highlighted errors.
